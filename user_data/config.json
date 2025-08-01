@@ -59,7 +59,42 @@
             "WBTC/USDT:USDT",
             "ETC/USDT:USDT",
             "FIL/USDT:USDT",
-            "USDC/USDT:USDT"
+            "USDC/USDT:USDT",
+            "ATOM/USDT:USDT",
+            "NEAR/USDT:USDT",
+            "APT/USDT:USDT",
+            "OP/USDT:USDT",
+            "ARB/USDT:USDT",
+            "MKR/USDT:USDT",
+            "AAVE/USDT:USDT",
+            "SNX/USDT:USDT",
+            "COMP/USDT:USDT",
+            "CRV/USDT:USDT",
+            "SUSHI/USDT:USDT",
+            "1INCH/USDT:USDT",
+            "ALGO/USDT:USDT",
+            "VET/USDT:USDT",
+            "ICP/USDT:USDT",
+            "FTM/USDT:USDT",
+            "THETA/USDT:USDT",
+            "XLM/USDT:USDT",
+            "HBAR/USDT:USDT",
+            "EOS/USDT:USDT",
+            "XTZ/USDT:USDT",
+            "MANA/USDT:USDT",
+            "SAND/USDT:USDT",
+            "AXS/USDT:USDT",
+            "GALA/USDT:USDT",
+            "CHZ/USDT:USDT",
+            "HOT/USDT:USDT",
+            "BAT/USDT:USDT",
+            "ZIL/USDT:USDT",
+            "IOTA/USDT:USDT",
+            "NEO/USDT:USDT",
+            "QTUM/USDT:USDT",
+            "WAVES/USDT:USDT",
+            "DASH/USDT:USDT",
+            "ZEC/USDT:USDT"
         ],
         "pair_blacklist": [
             "BNB/.*"
@@ -68,6 +103,27 @@
     "pairlists": [
         {
             "method": "StaticPairList"
+        },
+        {
+            "method": "VolumePairList",
+            "number_assets": 15,
+            "sort_key": "quoteVolume",
+            "min_value": 10000000,
+            "refresh_period": 1440
+        },
+        {
+            "method": "SpreadFilter",
+            "max_spread_ratio": 0.005
+        },
+        {
+            "method": "RangeStabilityFilter",
+            "lookback_days": 3,
+            "min_rate_of_change": 0.1,
+            "refresh_period": 1440
+        },
+        {
+            "method": "ShuffleFilter",
+            "seed": 42
         }
     ],
     "telegram": {

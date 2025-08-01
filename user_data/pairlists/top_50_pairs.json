@@ -1,0 +1,97 @@
+{
+  "top_50_pairs": {
+    "description": "Top 50 cryptocurrency pairs for dynamic selection",
+    "categories": {
+      "blue_chips": [
+        "BTC/USDT:USDT",
+        "ETH/USDT:USDT",
+        "BNB/USDT:USDT",
+        "SOL/USDT:USDT",
+        "XRP/USDT:USDT"
+      ],
+      "defi_tokens": [
+        "UNI/USDT:USDT",
+        "AAVE/USDT:USDT",
+        "MKR/USDT:USDT",
+        "COMP/USDT:USDT",
+        "SNX/USDT:USDT",
+        "CRV/USDT:USDT",
+        "SUSHI/USDT:USDT",
+        "1INCH/USDT:USDT"
+      ],
+      "layer1_blockchains": [
+        "ADA/USDT:USDT",
+        "AVAX/USDT:USDT",
+        "DOT/USDT:USDT",
+        "MATIC/USDT:USDT",
+        "ATOM/USDT:USDT",
+        "NEAR/USDT:USDT",
+        "APT/USDT:USDT",
+        "OP/USDT:USDT",
+        "ARB/USDT:USDT",
+        "ICP/USDT:USDT",
+        "FTM/USDT:USDT"
+      ],
+      "gaming_metaverse": [
+        "MANA/USDT:USDT",
+        "SAND/USDT:USDT",
+        "AXS/USDT:USDT",
+        "GALA/USDT:USDT",
+        "CHZ/USDT:USDT"
+      ],
+      "meme_tokens": [
+        "DOGE/USDT:USDT",
+        "SHIB/USDT:USDT"
+      ],
+      "payment_solutions": [
+        "LTC/USDT:USDT",
+        "BCH/USDT:USDT",
+        "XLM/USDT:USDT",
+        "DASH/USDT:USDT",
+        "ZEC/USDT:USDT"
+      ],
+      "enterprise_blockchains": [
+        "VET/USDT:USDT",
+        "HBAR/USDT:USDT",
+        "EOS/USDT:USDT",
+        "XTZ/USDT:USDT",
+        "NEO/USDT:USDT",
+        "QTUM/USDT:USDT",
+        "WAVES/USDT:USDT"
+      ],
+      "utility_tokens": [
+        "LINK/USDT:USDT",
+        "TRX/USDT:USDT",
+        "ALGO/USDT:USDT",
+        "THETA/USDT:USDT",
+        "BAT/USDT:USDT",
+        "ZIL/USDT:USDT",
+        "IOTA/USDT:USDT",
+        "HOT/USDT:USDT"
+      ],
+      "wrapped_tokens": [
+        "WBTC/USDT:USDT",
+        "USDC/USDT:USDT"
+      ],
+      "legacy_coins": [
+        "ETC/USDT:USDT",
+        "FIL/USDT:USDT"
+      ]
+    },
+    "selection_criteria": {
+      "volume_min": 10000000,
+      "market_cap_min": 100000000,
+      "max_spread": 0.005,
+      "min_volatility": 0.02,
+      "max_volatility": 0.15
+    },
+    "selection_strategy": {
+      "blue_chips_weight": 0.3,
+      "defi_weight": 0.25,
+      "layer1_weight": 0.25,
+      "gaming_weight": 0.1,
+      "other_weight": 0.1,
+      "max_pairs_per_category": 3
+    }
+  }
+} 
