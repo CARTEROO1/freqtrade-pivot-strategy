@@ -1,96 +1,232 @@
-# CodeRabbit Configuration for FreqTrade Trading Bot
-# This configuration focuses on security, risk management, and code quality
+# CodeRabbit Configuration for Freqtrade Strategy
+# This file configures AI-powered code review for the trading bot
 
-review:
-  # Critical files that require immediate attention
-  critical_files:
-    - user_data/strategies/sample_strategy.py
-    - user_data/config.json
-    - docker-compose.yml
-  
-  # Enable comprehensive checks
-  security_checks: true
-  quality_checks: true
-  performance_checks: true
-  maintainability_checks: true
-  
-  # Focus areas for this financial trading application
-  focus_areas:
-    - risk_management
-    - security
-    - error_handling
-    - data_validation
-    - performance
-    - compliance
-
-# Custom prompts for trading bot context
-custom_prompts:
-  - "This is a financial trading application that handles real money. Pay special attention to risk management, error handling, and potential financial losses."
-  - "Review for security vulnerabilities that could lead to unauthorized access or financial theft."
-  - "Check for proper validation of trading signals, market data, and mathematical calculations."
-  - "Ensure robust error handling for API failures, network issues, and data corruption."
-  - "Verify compliance with trading regulations and best practices for financial applications."
-
-# Review settings
-settings:
-  # Enable detailed analysis
-  detailed_analysis: true
-  
-  # Focus on critical issues first
-  priority_order:
-    - security
-    - risk_management
-    - critical_bugs
-    - performance
-    - code_quality
-  
-  # Language-specific settings
-  python:
-    - check_type_hints: true
-    - check_docstrings: true
-    - check_error_handling: true
-    - check_security: true
-  
-  yaml:
-    - check_security: true
-    - check_best_practices: true
-  
-  json:
-    - check_security: true
-    - check_validation: true
-
-# Ignore patterns (files that don't need review)
-ignore:
-  - "user_data/data/**"  # Market data files
-  - "user_data/backtest_results/**"  # Generated backtest results
-  - "user_data/logs/**"  # Log files
-  - "user_data/plot/**"  # Generated plots
-  - "*.feather"  # Data files
-  - "*.zip"  # Archive files
-  - "*.pkl"  # Pickle files
-
-# Custom review templates
-templates:
-  security_review: |
-    Please review this code for security vulnerabilities:
-    1. Check for exposed secrets, API keys, or sensitive data
-    2. Verify proper authentication and authorization
-    3. Check for input validation and sanitization
-    4. Review network security and API endpoints
-    5. Ensure secure data handling and storage
+coderabbit:
+  # Enable comprehensive code review
+  review:
+    enabled: true
     
-  risk_management_review: |
-    Please review this trading logic for risk management:
-    1. Validate stop-loss and take-profit calculations
-    2. Check position sizing and leverage management
-    3. Verify entry/exit signal validation
-    4. Review error handling for market data issues
-    5. Ensure proper circuit breakers and safety limits
+    # Review all relevant files
+    files:
+      - "**/*.py"
+      - "**/*.json"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "**/*.md"
+      - "**/*.sh"
     
-  code_quality_review: |
-    Please review this code for quality and maintainability:
-    1. Check for proper error handling and logging
-    2. Verify code organization and structure
-    3. Review documentation and comments
-    4. Check for performance optimizations
-    5. Ensure best practices and standards compliance 
+    # Focus areas for review
+    focus:
+      - "code-quality"
+      - "security"
+      - "performance"
+      - "best-practices"
+      - "documentation"
+      - "error-handling"
+      - "testing"
+      - "risk-management"
+    
+    # Language-specific settings
+    python:
+      enabled: true
+      # Check for common Python issues
+      checks:
+        - "pylint"
+        - "flake8"
+        - "security"
+        - "performance"
+        - "type-hints"
+        - "docstrings"
+    
+    # Trading strategy specific checks
+    custom:
+      - "trading-strategy-best-practices"
+      - "risk-management"
+      - "configuration-validation"
+      - "error-handling"
+      - "logging"
+      - "documentation"
+      - "financial-calculations"
+      - "market-data-handling"
+
+  # PR review settings
+  pr:
+    enabled: true
+    # Auto-review on PR creation
+    auto_review: true
+    # Suggest improvements
+    suggest_improvements: true
+    # Check for security issues
+    security_scan: true
+    # Performance analysis
+    performance_analysis: true
+    # Risk assessment
+    risk_assessment: true
+
+  # File-specific settings
+  files:
+    # Strategy files - Critical for review
+    "user_data/strategies/*.py":
+      focus:
+        - "trading-logic"
+        - "risk-management"
+        - "performance"
+        - "error-handling"
+        - "financial-calculations"
+        - "signal-generation"
+        - "position-sizing"
+        - "stop-loss-logic"
+      priority: "high"
+      custom_prompt: |
+        This is a financial trading strategy. Pay special attention to:
+        1. Risk management and position sizing
+        2. Mathematical accuracy of calculations
+        3. Error handling for market data issues
+        4. Performance optimization for real-time trading
+        5. Security considerations for financial operations
+        6. Edge cases that could cause financial losses
+    
+    # Configuration files - Security critical
+    "user_data/config.json":
+      focus:
+        - "configuration-validation"
+        - "security"
+        - "best-practices"
+        - "parameter-validation"
+        - "risk-parameters"
+      priority: "high"
+      custom_prompt: |
+        This is a trading bot configuration file. Review for:
+        1. Security vulnerabilities and exposed secrets
+        2. Risk management parameters and limits
+        3. API key security and authentication
+        4. Trading parameters validation
+        5. Network security settings
+    
+    # Scripts - Code quality focus
+    "scripts/*.py":
+      focus:
+        - "code-quality"
+        - "error-handling"
+        - "documentation"
+        - "performance"
+        - "user-interface"
+      priority: "medium"
+      custom_prompt: |
+        These are utility scripts for the trading system. Review for:
+        1. Code quality and maintainability
+        2. Error handling and robustness
+        3. Performance optimization
+        4. User experience and interface
+        5. Documentation clarity
+    
+    # Documentation files
+    "*.md":
+      focus:
+        - "documentation-quality"
+        - "technical-accuracy"
+        - "completeness"
+        - "clarity"
+      priority: "low"
+    
+    # Docker configuration
+    "docker-compose.yml":
+      focus:
+        - "security"
+        - "performance"
+        - "best-practices"
+        - "production-readiness"
+      priority: "medium"
+      custom_prompt: |
+        This is a Docker configuration for a trading bot. Review for:
+        1. Security best practices
+        2. Resource allocation and performance
+        3. Network security
+        4. Data persistence and backup
+        5. Production deployment readiness
+
+  # Ignore certain files and directories
+  ignore:
+    - "user_data/data/**"
+    - "user_data/logs/**"
+    - "user_data/backtest_results/**"
+    - "user_data/plot/**"
+    - "user_data/hyperopt_results/**"
+    - "*.sqlite*"
+    - "__pycache__/**"
+    - "*.pyc"
+    - ".git/**"
+    - "node_modules/**"
+    - "venv/**"
+    - "env/**"
+    - ".env*"
+
+  # Custom review prompts for trading context
+  custom_prompts:
+    - |
+      This is a financial trading application. Pay special attention to:
+      1. Risk management and potential financial losses
+      2. Security of API keys and authentication
+      3. Accuracy of financial calculations
+      4. Error handling for market data issues
+      5. Performance optimization for real-time trading
+      6. Compliance with trading regulations
+    
+    - |
+      Trading strategy specific considerations:
+      1. Entry/exit signal validation
+      2. Position sizing and risk per trade
+      3. Stop-loss and take-profit logic
+      4. Market data handling and validation
+      5. Performance under different market conditions
+      6. Edge cases that could cause losses
+
+  # Review thresholds
+  thresholds:
+    # Minimum review score to pass
+    min_score: 7.0
+    # Critical issues that must be addressed
+    critical_issues:
+      - "security-vulnerability"
+      - "financial-risk"
+      - "data-loss"
+      - "authentication-bypass"
+    # Warning issues that should be addressed
+    warning_issues:
+      - "performance-issue"
+      - "code-quality"
+      - "documentation"
+      - "error-handling"
+
+  # Auto-fix settings
+  auto_fix:
+    enabled: true
+    # Only auto-fix safe changes
+    safe_only: true
+    # Don't auto-fix critical files
+    exclude:
+      - "user_data/strategies/*.py"
+      - "user_data/config.json"
+    # Auto-fix these issues
+    issues:
+      - "formatting"
+      - "typos"
+      - "simple-refactoring"
+      - "documentation"
+
+  # Reporting
+  reporting:
+    enabled: true
+    # Generate detailed reports
+    detailed: true
+    # Include performance metrics
+    performance: true
+    # Include security analysis
+    security: true
+    # Include risk assessment
+    risk: true
+    # Export to multiple formats
+    formats:
+      - "markdown"
+      - "json"
+      - "html" 
