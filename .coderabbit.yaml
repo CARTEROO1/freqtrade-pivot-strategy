@@ -1,0 +1,96 @@
+# CodeRabbit Configuration for FreqTrade Trading Bot
+# This configuration focuses on security, risk management, and code quality
+
+review:
+  # Critical files that require immediate attention
+  critical_files:
+    - user_data/strategies/sample_strategy.py
+    - user_data/config.json
+    - docker-compose.yml
+  
+  # Enable comprehensive checks
+  security_checks: true
+  quality_checks: true
+  performance_checks: true
+  maintainability_checks: true
+  
+  # Focus areas for this financial trading application
+  focus_areas:
+    - risk_management
+    - security
+    - error_handling
+    - data_validation
+    - performance
+    - compliance
+
+# Custom prompts for trading bot context
+custom_prompts:
+  - "This is a financial trading application that handles real money. Pay special attention to risk management, error handling, and potential financial losses."
+  - "Review for security vulnerabilities that could lead to unauthorized access or financial theft."
+  - "Check for proper validation of trading signals, market data, and mathematical calculations."
+  - "Ensure robust error handling for API failures, network issues, and data corruption."
+  - "Verify compliance with trading regulations and best practices for financial applications."
+
+# Review settings
+settings:
+  # Enable detailed analysis
+  detailed_analysis: true
+  
+  # Focus on critical issues first
+  priority_order:
+    - security
+    - risk_management
+    - critical_bugs
+    - performance
+    - code_quality
+  
+  # Language-specific settings
+  python:
+    - check_type_hints: true
+    - check_docstrings: true
+    - check_error_handling: true
+    - check_security: true
+  
+  yaml:
+    - check_security: true
+    - check_best_practices: true
+  
+  json:
+    - check_security: true
+    - check_validation: true
+
+# Ignore patterns (files that don't need review)
+ignore:
+  - "user_data/data/**"  # Market data files
+  - "user_data/backtest_results/**"  # Generated backtest results
+  - "user_data/logs/**"  # Log files
+  - "user_data/plot/**"  # Generated plots
+  - "*.feather"  # Data files
+  - "*.zip"  # Archive files
+  - "*.pkl"  # Pickle files
+
+# Custom review templates
+templates:
+  security_review: |
+    Please review this code for security vulnerabilities:
+    1. Check for exposed secrets, API keys, or sensitive data
+    2. Verify proper authentication and authorization
+    3. Check for input validation and sanitization
+    4. Review network security and API endpoints
+    5. Ensure secure data handling and storage
+    
+  risk_management_review: |
+    Please review this trading logic for risk management:
+    1. Validate stop-loss and take-profit calculations
+    2. Check position sizing and leverage management
+    3. Verify entry/exit signal validation
+    4. Review error handling for market data issues
+    5. Ensure proper circuit breakers and safety limits
+    
+  code_quality_review: |
+    Please review this code for quality and maintainability:
+    1. Check for proper error handling and logging
+    2. Verify code organization and structure
+    3. Review documentation and comments
+    4. Check for performance optimizations
+    5. Ensure best practices and standards compliance 
