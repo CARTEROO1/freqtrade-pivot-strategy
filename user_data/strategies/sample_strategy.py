@@ -195,98 +195,27 @@ class PivotCamarillaStrategy(IStrategy):
             
         return dataframe
 
-    def custom_stoploss(self, pair: str, trade, current_time: pd.Timestamp, 
-                       current_rate: float, current_profit: float, **kwargs) -> float:
-        """
-        Dynamic stoploss based on ATR(14) at trade open.
-        
-        Args:
-            pair: Trading pair
-            trade: Trade object
-            current_time: Current timestamp
-            current_rate: Current rate
-            current_profit: Current profit
-            
-        Returns:
-            float: Relative stoploss value
-        """
-        try:
-            dataframe = self.dp.get_analyzed_dataframe(pair, self.timeframe)
-            if dataframe is None or len(dataframe) == 0:
-                logger.warning(f"No dataframe available for {pair}")
-                return 1  # fallback: no stop
-                
-            # Find the candle at trade open
-            open_candle = dataframe[dataframe['date'] == trade.open_date.replace(tzinfo=None)]
-            if open_candle.empty:
-                logger.warning(f"No open candle found for {pair}")
-                return 1
-                
-            atr = open_candle['atr14'].iloc[0]
-            if pd.isna(atr) or atr <= 0:
-                logger.warning(f"Invalid ATR value for {pair}: {atr}")
-                return 1
-                
-            # Set stoploss at X * ATR below entry
-            stoploss_price = (trade.open_rate - self.ATR_STOPLOSS_MULTIPLIER * atr 
-                            if trade.is_long else trade.open_rate + self.ATR_STOPLOSS_MULTIPLIER * atr)
-            
-            # Convert to relative stoploss
-            if trade.is_long:
-                rel_stop = (stoploss_price - trade.open_rate) / trade.open_rate
-            else:
-                rel_stop = (trade.open_rate - stoploss_price) / trade.open_rate
-                
-            return rel_stop
-            
-        except Exception as e:
-            logger.error(f"Error in custom_stoploss for {pair}: {str(e)}")
-            return 1
+    # TODO: Re-enable dynamic stoploss and ROI methods when market conditions stabilize
+    # Current static values are optimized for weekly targets and trailing:
+    # - Stoploss: -0.15 (15% loss limit) - conservative risk management
+    # - ROI: 0.03 (3% initial target) - weekly target with trailing stop
+    # - Trailing: Activates at +1% with 2% offset for maximum profit capture
+    # These values provide balanced risk-reward with trailing stop optimization
+    # def custom_stoploss(self, pair: str, trade, current_time: pd.Timestamp, 
+    #                    current_rate: float, current_profit: float, **kwargs) -> float:
+    #     """
+    #     Dynamic stoploss based on ATR(14) at trade open.
+    #     """
+    #     # Temporarily disabled to use static values
+    #     return -0.15  # Use conservative static stoploss from JSON
 
-    def custom_roi(self, pair: str, trade, current_time: pd.Timestamp, 
-                  current_rate: float, current_profit: float, **kwargs) -> float:
-        """
-        Dynamic ROI target based on ATR(14) at trade open.
-        
-        Args:
-            pair: Trading pair
-            trade: Trade object
-            current_time: Current timestamp
-            current_rate: Current rate
-            current_profit: Current profit
-            
-        Returns:
-            float: ROI target value
-        """
-        try:
-            dataframe = self.dp.get_analyzed_dataframe(pair, self.timeframe)
-            if dataframe is None or len(dataframe) == 0:
-                logger.warning(f"No dataframe available for {pair}")
-                return 0.02  # fallback
-                
-            open_candle = dataframe[dataframe['date'] == trade.open_date.replace(tzinfo=None)]
-            if open_candle.empty:
-                logger.warning(f"No open candle found for {pair}")
-                return 0.02
-                
-            atr = open_candle['atr14'].iloc[0]
-            if pd.isna(atr) or atr <= 0:
-                logger.warning(f"Invalid ATR value for {pair}: {atr}")
-                return 0.02
-                
-            roi_price = (trade.open_rate + self.ATR_ROI_MULTIPLIER * atr 
-                        if trade.is_long else trade.open_rate - self.ATR_ROI_MULTIPLIER * atr)
-            
-            if trade.is_long:
-                rel_roi = (roi_price - trade.open_rate) / trade.open_rate
-            else:
-                rel_roi = (trade.open_rate - roi_price) / trade.open_rate
-                
-            return rel_roi
-            
-        except Exception as e:
-            logger.error(f"Error in custom_roi for {pair}: {str(e)}")
-            return 0.02
+    # def custom_roi(self, pair: str, trade, current_time: pd.Timestamp, 
+    #               current_rate: float, current_profit: float, **kwargs) -> float:
+    #     """
+    #     Dynamic ROI target based on ATR(14) at trade open.
+    #     """
+    #     # Temporarily disabled to use static values
+    #     return 0.03  # Use weekly target ROI from JSON
 
     can_short = True
 
@@ -301,37 +230,25 @@ class PivotCamarillaStrategy(IStrategy):
         Returns:
             DataFrame with entry signals
         """
-        conditions = []
-        
-        # Long entry conditions
+        # Long entry conditions - simplified for testing
         long_condition = (
             (dataframe['close'] > dataframe['d_pivot']) &
             (dataframe['close'] > dataframe['ema200']) &
-            (dataframe['close'] > dataframe['d_bc']) &
-            (dataframe['close'] < dataframe['d_tc']) &
             (dataframe['volatility_filter']) &
             (dataframe['volume_filter'])
         )
-        conditions.append(long_condition)
         
-        # Short entry conditions
+        # Short entry conditions - simplified for testing
         short_condition = (
             (dataframe['close'] < dataframe['d_pivot']) &
             (dataframe['close'] < dataframe['ema200']) &
-            (dataframe['close'] < dataframe['d_bc']) &
-            (dataframe['close'] > dataframe['d_tc']) &
             (dataframe['volatility_filter']) &
             (dataframe['volume_filter'])
         )
-        conditions.append(short_condition)
 
-        if conditions:
-            dataframe.loc[
-                reduce(lambda x, y: x | y, conditions), 'enter_long'
-            ] = 1
-            dataframe.loc[
-                reduce(lambda x, y: x | y, conditions), 'enter_short'
-            ] = 1
+        # Set entry signals
+        dataframe.loc[long_condition, 'enter_long'] = 1
+        dataframe.loc[short_condition, 'enter_short'] = 1
 
         return dataframe
 
