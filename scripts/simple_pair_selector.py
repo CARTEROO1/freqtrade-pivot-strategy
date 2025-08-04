@@ -7,6 +7,7 @@ Selects top performing pairs from a predefined list without external API calls
 import json
 import random
 from datetime import datetime
+from scripts.pivot_strategy import PivotCamarillaStrategy
 
 class SimplePairSelector:
     def __init__(self, config_file="user_data/pairlists/top_50_pairs.json"):
@@ -87,7 +88,16 @@ class SimplePairSelector:
         ]
         
         return priority_order[:max_pairs]
-    
+
+    def select_by_pivot_strategy(self, max_pairs=10):
+        """Select pairs based on the Pivot Camarilla Strategy"""
+        # This is a placeholder implementation.
+        # In a real scenario, you would need to fetch historical data for each pair,
+        # run the strategy, and rank pairs based on the buy signals.
+        print("Pivor strategy selected")
+        all_pairs = self.get_all_pairs()
+        return random.sample(all_pairs, min(max_pairs, len(all_pairs)))
+
     def print_selection(self, selected_pairs, method_name):
         """Print the selected pairs"""
         print(f"\n{'='*60}")
@@ -129,10 +139,11 @@ def main():
     print("1. Category-weighted selection (recommended)")
     print("2. Random selection from top 50")
     print("3. Volume-priority selection")
-    
+    print("4. Pivot Camarilla Strategy")
+
     try:
-        choice = input("\nEnter choice (1-3): ").strip()
-        
+        choice = input("\nEnter choice (1-4): ").strip()
+
         if choice == "1":
             selected_pairs = selector.select_by_category_weights(max_pairs=10)
             selector.print_selection(selected_pairs, "Category-Weighted")
@@ -142,6 +153,9 @@ def main():
         elif choice == "3":
             selected_pairs = selector.select_by_volume_priority(max_pairs=10)
             selector.print_selection(selected_pairs, "Volume-Priority")
+        elif choice == "4":
+            selected_pairs = selector.select_by_pivot_strategy(max_pairs=10)
+            selector.print_selection(selected_pairs, "Pivot Camarilla Strategy")
         else:
             print("Invalid choice. Using category-weighted selection.")
             selected_pairs = selector.select_by_category_weights(max_pairs=10)

@@ -1,0 +1,52 @@
+{
+  "top_50_pairs": {
+    "categories": {
+      "blue_chips": [
+        "BTC/USDT:USDT",
+        "ETH/USDT:USDT",
+        "BNB/USDT:USDT"
+      ],
+      "defi_tokens": [
+        "UNI/USDT:USDT",
+        "LINK/USDT:USDT",
+        "AAVE/USDT:USDT"
+      ],
+      "layer1_blockchains": [
+        "SOL/USDT:USDT",
+        "ADA/USDT:USDT",
+        "AVAX/USDT:USDT"
+      ],
+      "gaming_metaverse": [
+        "MANA/USDT:USDT",
+        "SAND/USDT:USDT",
+        "AXS/USDT:USDT"
+      ],
+      "payment_solutions": [
+        "XRP/USDT:USDT",
+        "LTC/USDT:USDT",
+        "BCH/USDT:USDT"
+      ],
+      "enterprise_blockchains": [
+        "VET/USDT:USDT",
+        "HBAR/USDT:USDT"
+      ],
+      "utility_tokens": [
+        "FIL/USDT:USDT",
+        "ATOM/USDT:USDT"
+      ]
+    },
+    "selection_strategy": {
+      "blue_chips_weight": 0.3,
+      "defi_weight": 0.25,
+      "layer1_weight": 0.25,
+      "gaming_weight": 0.1,
+      "other_weight": 0.1
+    },
+    "selection_criteria": {
+      "volume_min": 10000000,
+      "market_cap_min": 100000000,
+      "min_volatility": 0.02,
+      "max_volatility": 0.1
+    }
+  }
+}
