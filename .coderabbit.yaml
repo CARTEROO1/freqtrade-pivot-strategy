@@ -1,232 +1,413 @@
-# CodeRabbit Configuration for Freqtrade Strategy
-# This file configures AI-powered code review for the trading bot
+# CodeRabbit Configuration for HappyCareer
+# This configuration enables AI-powered code reviews for the entire project
 
-coderabbit:
-  # Enable comprehensive code review
-  review:
+# Global settings
+global:
+  # Enable AI-powered code reviews
+  ai:
     enabled: true
-    
-    # Review all relevant files
-    files:
-      - "**/*.py"
-      - "**/*.json"
-      - "**/*.yml"
-      - "**/*.yaml"
-      - "**/*.md"
-      - "**/*.sh"
-    
-    # Focus areas for review
-    focus:
-      - "code-quality"
-      - "security"
-      - "performance"
-      - "best-practices"
-      - "documentation"
-      - "error-handling"
-      - "testing"
-      - "risk-management"
-    
-    # Language-specific settings
-    python:
-      enabled: true
-      # Check for common Python issues
-      checks:
-        - "pylint"
-        - "flake8"
-        - "security"
-        - "performance"
-        - "type-hints"
-        - "docstrings"
-    
-    # Trading strategy specific checks
-    custom:
-      - "trading-strategy-best-practices"
-      - "risk-management"
-      - "configuration-validation"
-      - "error-handling"
-      - "logging"
-      - "documentation"
-      - "financial-calculations"
-      - "market-data-handling"
-
-  # PR review settings
-  pr:
-    enabled: true
-    # Auto-review on PR creation
-    auto_review: true
-    # Suggest improvements
-    suggest_improvements: true
-    # Check for security issues
-    security_scan: true
-    # Performance analysis
-    performance_analysis: true
-    # Risk assessment
-    risk_assessment: true
-
-  # File-specific settings
-  files:
-    # Strategy files - Critical for review
-    "user_data/strategies/*.py":
-      focus:
-        - "trading-logic"
-        - "risk-management"
-        - "performance"
-        - "error-handling"
-        - "financial-calculations"
-        - "signal-generation"
-        - "position-sizing"
-        - "stop-loss-logic"
-      priority: "high"
-      custom_prompt: |
-        This is a financial trading strategy. Pay special attention to:
-        1. Risk management and position sizing
-        2. Mathematical accuracy of calculations
-        3. Error handling for market data issues
-        4. Performance optimization for real-time trading
-        5. Security considerations for financial operations
-        6. Edge cases that could cause financial losses
-    
-    # Configuration files - Security critical
-    "user_data/config.json":
-      focus:
-        - "configuration-validation"
-        - "security"
-        - "best-practices"
-        - "parameter-validation"
-        - "risk-parameters"
-      priority: "high"
-      custom_prompt: |
-        This is a trading bot configuration file. Review for:
-        1. Security vulnerabilities and exposed secrets
-        2. Risk management parameters and limits
-        3. API key security and authentication
-        4. Trading parameters validation
-        5. Network security settings
-    
-    # Scripts - Code quality focus
-    "scripts/*.py":
-      focus:
-        - "code-quality"
-        - "error-handling"
-        - "documentation"
-        - "performance"
-        - "user-interface"
-      priority: "medium"
-      custom_prompt: |
-        These are utility scripts for the trading system. Review for:
-        1. Code quality and maintainability
-        2. Error handling and robustness
-        3. Performance optimization
-        4. User experience and interface
-        5. Documentation clarity
-    
-    # Documentation files
-    "*.md":
-      focus:
-        - "documentation-quality"
-        - "technical-accuracy"
-        - "completeness"
-        - "clarity"
-      priority: "low"
-    
-    # Docker configuration
-    "docker-compose.yml":
-      focus:
-        - "security"
-        - "performance"
-        - "best-practices"
-        - "production-readiness"
-      priority: "medium"
-      custom_prompt: |
-        This is a Docker configuration for a trading bot. Review for:
-        1. Security best practices
-        2. Resource allocation and performance
-        3. Network security
-        4. Data persistence and backup
-        5. Production deployment readiness
-
-  # Ignore certain files and directories
-  ignore:
-    - "user_data/data/**"
-    - "user_data/logs/**"
-    - "user_data/backtest_results/**"
-    - "user_data/plot/**"
-    - "user_data/hyperopt_results/**"
-    - "*.sqlite*"
-    - "__pycache__/**"
-    - "*.pyc"
-    - ".git/**"
-    - "node_modules/**"
-    - "venv/**"
-    - "env/**"
-    - ".env*"
-
-  # Custom review prompts for trading context
-  custom_prompts:
-    - |
-      This is a financial trading application. Pay special attention to:
-      1. Risk management and potential financial losses
-      2. Security of API keys and authentication
-      3. Accuracy of financial calculations
-      4. Error handling for market data issues
-      5. Performance optimization for real-time trading
-      6. Compliance with trading regulations
-    
-    - |
-      Trading strategy specific considerations:
-      1. Entry/exit signal validation
-      2. Position sizing and risk per trade
-      3. Stop-loss and take-profit logic
-      4. Market data handling and validation
-      5. Performance under different market conditions
-      6. Edge cases that could cause losses
-
-  # Review thresholds
-  thresholds:
-    # Minimum review score to pass
-    min_score: 7.0
-    # Critical issues that must be addressed
-    critical_issues:
-      - "security-vulnerability"
-      - "financial-risk"
-      - "data-loss"
-      - "authentication-bypass"
-    # Warning issues that should be addressed
-    warning_issues:
-      - "performance-issue"
-      - "code-quality"
-      - "documentation"
-      - "error-handling"
-
-  # Auto-fix settings
-  auto_fix:
-    enabled: true
-    # Only auto-fix safe changes
-    safe_only: true
-    # Don't auto-fix critical files
-    exclude:
-      - "user_data/strategies/*.py"
-      - "user_data/config.json"
-    # Auto-fix these issues
-    issues:
-      - "formatting"
-      - "typos"
-      - "simple-refactoring"
-      - "documentation"
-
-  # Reporting
-  reporting:
-    enabled: true
-    # Generate detailed reports
-    detailed: true
-    # Include performance metrics
-    performance: true
-    # Include security analysis
+    # Use advanced model for better code analysis
+    model: gpt-4
+    # Enable detailed explanations
+    explain: true
+    # Include code suggestions
+    suggest: true
+    # Enable security analysis
     security: true
-    # Include risk assessment
-    risk: true
-    # Export to multiple formats
-    formats:
-      - "markdown"
-      - "json"
-      - "html" 
+    # Enable performance analysis
+    performance: true
+    # Enable best practices review
+    best_practices: true
+
+# Repository settings
+repository:
+  # Repository name
+  name: "happycareer"
+  # Repository description
+  description: "A psychologically-optimized job platform using proven business psychology principles"
+  # Main branch
+  default_branch: "main"
+  # Enable auto-merge for approved PRs
+  auto_merge: false
+  # Require code review approval
+  require_review: true
+
+# Review settings
+review:
+  # Enable automatic reviews on pull requests
+  auto_review: true
+  # Enable review on push to main branch
+  review_on_push: true
+  # Enable review on new commits
+  review_on_commit: true
+  # Enable review on file changes
+  review_on_file_change: true
+  
+  # Review criteria
+  criteria:
+    # Code quality
+    code_quality: true
+    # Security vulnerabilities
+    security: true
+    # Performance issues
+    performance: true
+    # Best practices
+    best_practices: true
+    # Documentation
+    documentation: true
+    # Testing
+    testing: true
+    # Accessibility
+    accessibility: true
+    # SEO optimization
+    seo: true
+    # User experience
+    ux: true
+
+# File patterns to include/exclude
+files:
+  include:
+    # Frontend files
+    - "frontend/**/*.{ts,tsx,js,jsx}"
+    - "frontend/**/*.{css,scss}"
+    - "frontend/**/*.{json,md}"
+    # Backend files
+    - "backend/**/*.{ts,js}"
+    - "backend/**/*.{json,md}"
+    # Configuration files
+    - "*.{json,yaml,yml,md}"
+    - "*.{sh,bat}"
+    - "Dockerfile*"
+    - "docker-compose*"
+  exclude:
+    # Exclude node_modules and build artifacts
+    - "**/node_modules/**"
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/.next/**"
+    - "**/coverage/**"
+    - "**/.git/**"
+    # Exclude environment files
+    - "**/.env*"
+    - "**/secrets/**"
+    # Exclude lock files
+    - "**/package-lock.json"
+    - "**/yarn.lock"
+
+# Custom review prompts for specific areas
+prompts:
+  # Frontend review prompts
+  frontend:
+    - "Review React/Next.js best practices and patterns"
+    - "Check for TypeScript type safety and proper interfaces"
+    - "Evaluate component reusability and modularity"
+    - "Assess performance optimizations (memoization, lazy loading)"
+    - "Review accessibility (ARIA labels, semantic HTML)"
+    - "Check for responsive design and mobile optimization"
+    - "Evaluate CSS organization and maintainability"
+    - "Review state management patterns"
+    - "Check for proper error handling and loading states"
+    - "Assess SEO optimization and meta tags"
+
+  # Backend review prompts
+  backend:
+    - "Review API design and RESTful principles"
+    - "Check for proper error handling and validation"
+    - "Evaluate security measures (authentication, authorization)"
+    - "Review database schema and relationships"
+    - "Check for proper logging and monitoring"
+    - "Assess performance and scalability considerations"
+    - "Review code organization and modularity"
+    - "Check for proper environment configuration"
+    - "Evaluate testing coverage and quality"
+    - "Review documentation and API documentation"
+
+  # Psychology framework review prompts
+  psychology:
+    - "Review implementation of psychological principles"
+    - "Check for proper variable reward schedules"
+    - "Evaluate social proof implementation"
+    - "Assess scarcity and urgency triggers"
+    - "Review gamification elements and engagement"
+    - "Check for ethical implementation of psychological triggers"
+    - "Evaluate user experience and cognitive load"
+    - "Review accessibility for all user types"
+    - "Assess data privacy and user consent"
+    - "Check for A/B testing implementation"
+
+  # Business logic review prompts
+  business:
+    - "Review business logic and requirements implementation"
+    - "Check for proper data validation and integrity"
+    - "Evaluate user flow and conversion optimization"
+    - "Review analytics and tracking implementation"
+    - "Assess monetization strategy and implementation"
+    - "Check for proper user management and roles"
+    - "Evaluate notification and communication systems"
+    - "Review search and filtering functionality"
+    - "Assess recommendation algorithms"
+    - "Check for proper error recovery and fallbacks"
+
+# Security review settings
+security:
+  enabled: true
+  # Check for common vulnerabilities
+  vulnerabilities: true
+  # Review authentication and authorization
+  auth: true
+  # Check for data validation
+  validation: true
+  # Review input sanitization
+  sanitization: true
+  # Check for proper error handling
+  error_handling: true
+  # Review API security
+  api_security: true
+  # Check for environment variable security
+  env_security: true
+
+# Performance review settings
+performance:
+  enabled: true
+  # Check for code efficiency
+  efficiency: true
+  # Review database queries
+  database: true
+  # Check for frontend performance
+  frontend: true
+  # Review API response times
+  api_performance: true
+  # Check for caching strategies
+  caching: true
+  # Review bundle size optimization
+  bundle_size: true
+
+# Documentation review settings
+documentation:
+  enabled: true
+  # Check for inline code comments
+  comments: true
+  # Review README files
+  readme: true
+  # Check for API documentation
+  api_docs: true
+  # Review component documentation
+  component_docs: true
+  # Check for setup instructions
+  setup_docs: true
+
+# Testing review settings
+testing:
+  enabled: true
+  # Check for unit tests
+  unit_tests: true
+  # Review integration tests
+  integration_tests: true
+  # Check for test coverage
+  coverage: true
+  # Review test quality
+  test_quality: true
+  # Check for mocking strategies
+  mocking: true
+
+# Accessibility review settings
+accessibility:
+  enabled: true
+  # Check for ARIA labels
+  aria_labels: true
+  # Review keyboard navigation
+  keyboard_nav: true
+  # Check for color contrast
+  color_contrast: true
+  # Review screen reader compatibility
+  screen_reader: true
+  # Check for focus management
+  focus_management: true
+
+# SEO review settings
+seo:
+  enabled: true
+  # Check for meta tags
+  meta_tags: true
+  # Review structured data
+  structured_data: true
+  # Check for URL structure
+  url_structure: true
+  # Review page titles
+  page_titles: true
+  # Check for image alt text
+  image_alt: true
+
+# User experience review settings
+ux:
+  enabled: true
+  # Check for user flow
+  user_flow: true
+  # Review interface design
+  interface_design: true
+  # Check for loading states
+  loading_states: true
+  # Review error messages
+  error_messages: true
+  # Check for feedback mechanisms
+  feedback: true
+
+# Notification settings
+notifications:
+  # Enable email notifications
+  email: true
+  # Enable Slack notifications
+  slack: false
+  # Enable GitHub notifications
+  github: true
+  # Enable webhook notifications
+  webhook: false
+
+# Integration settings
+integrations:
+  # GitHub integration
+  github:
+    enabled: true
+    # Enable status checks
+    status_checks: true
+    # Enable comment reviews
+    comment_reviews: true
+    # Enable PR reviews
+    pr_reviews: true
+  
+  # CI/CD integration
+  ci_cd:
+    enabled: true
+    # Enable review on CI failure
+    review_on_failure: true
+    # Enable review on CI success
+    review_on_success: true
+
+# Custom rules for the project
+rules:
+  # Code style rules
+  code_style:
+    - "Use consistent naming conventions"
+    - "Follow TypeScript best practices"
+    - "Use proper indentation and formatting"
+    - "Keep functions small and focused"
+    - "Use meaningful variable names"
+  
+  # Architecture rules
+  architecture:
+    - "Follow separation of concerns"
+    - "Use proper component composition"
+    - "Implement proper error boundaries"
+    - "Use proper state management"
+    - "Follow RESTful API design"
+  
+  # Security rules
+  security:
+    - "Validate all user inputs"
+    - "Use proper authentication"
+    - "Implement proper authorization"
+    - "Sanitize data before storage"
+    - "Use HTTPS for all communications"
+  
+  # Performance rules
+  performance:
+    - "Optimize bundle size"
+    - "Use proper caching strategies"
+    - "Implement lazy loading"
+    - "Optimize database queries"
+    - "Use proper image optimization"
+
+# Review templates
+templates:
+  # Pull request template
+  pr_template: |
+    ## 🎯 Changes Made
+    - [ ] Feature addition
+    - [ ] Bug fix
+    - [ ] Performance improvement
+    - [ ] Security enhancement
+    - [ ] Documentation update
+    
+    ## 📝 Description
+    Brief description of changes made
+    
+    ## 🧪 Testing
+    - [ ] Unit tests added/updated
+    - [ ] Integration tests added/updated
+    - [ ] Manual testing completed
+    
+    ## 📊 Impact
+    - Performance impact:
+    - Security impact:
+    - User experience impact:
+    
+    ## 🔍 Review Checklist
+    - [ ] Code follows project standards
+    - [ ] No security vulnerabilities
+    - [ ] Performance considerations addressed
+    - [ ] Documentation updated
+    - [ ] Tests added/updated
+
+  # Review comment template
+  review_template: |
+    ## 🔍 Code Review Summary
+    
+    ### ✅ Strengths
+    - [List positive aspects]
+    
+    ### ⚠️ Areas for Improvement
+    - [List areas that need attention]
+    
+    ### 🚨 Critical Issues
+    - [List any critical issues]
+    
+    ### 💡 Suggestions
+    - [List improvement suggestions]
+    
+    ### 📊 Metrics
+    - Code quality score: [X/10]
+    - Security score: [X/10]
+    - Performance score: [X/10]
+    - Maintainability score: [X/10]
+
+# Auto-fix settings
+auto_fix:
+  enabled: true
+  # Enable automatic formatting fixes
+  formatting: true
+  # Enable automatic import sorting
+  imports: true
+  # Enable automatic type fixes
+  types: true
+  # Enable automatic security fixes
+  security: false  # Disabled for safety
+  # Enable automatic performance fixes
+  performance: false  # Disabled for safety
+
+# Quality gates
+quality_gates:
+  # Minimum code quality score
+  min_quality_score: 7.0
+  # Minimum security score
+  min_security_score: 8.0
+  # Minimum test coverage
+  min_test_coverage: 70
+  # Maximum complexity
+  max_complexity: 10
+  # Maximum function length
+  max_function_length: 50
+  # Maximum file length
+  max_file_length: 500
+
+# Reporting settings
+reporting:
+  # Enable detailed reports
+  detailed: true
+  # Enable trend analysis
+  trends: true
+  # Enable comparison reports
+  comparison: true
+  # Enable export functionality
+  export: true
+  # Enable dashboard
+  dashboard: true 

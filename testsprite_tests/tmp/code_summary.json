@@ -1,0 +1,523 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "Next.js 14",
+    "React 18",
+    "Node.js",
+    "Express.js",
+    "Prisma ORM",
+    "PostgreSQL",
+    "Supabase",
+    "Tailwind CSS",
+    "LangChain",
+    "Moonshot AI (Kimi K2)",
+    "JWT Authentication",
+    "Redis",
+    "Docker",
+    "Jest",
+    "Testing Library"
+  ],
+  "features": [
+    {
+      "name": "AI Job Recommendations",
+      "description": "AI-powered job matching system using Kimi K2 that analyzes user profiles and provides personalized job recommendations with match scores and reasoning",
+      "files": [
+        "frontend/src/lib/ai-service.ts",
+        "frontend/src/app/api/ai/recommendations/route.ts",
+        "frontend/src/components/ai/JobRecommendations.tsx",
+        "frontend/src/app/jobs/page.tsx"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "AI Job Recommendations API",
+          "version": "1.0.0",
+          "description": "AI-powered job recommendation system"
+        },
+        "paths": {
+          "/api/ai/recommendations": {
+            "post": {
+              "summary": "Get AI job recommendations",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "userProfile": {
+                          "type": "object",
+                          "properties": {
+                            "id": {"type": "string"},
+                            "skills": {"type": "array", "items": {"type": "string"}},
+                            "experience": {"type": "string"},
+                            "location": {"type": "string"}
+                          }
+                        },
+                        "jobs": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {"type": "string"},
+                              "title": {"type": "string"},
+                              "company": {"type": "object"},
+                              "location": {"type": "string"}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {"type": "boolean"},
+                          "recommendations": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "jobId": {"type": "string"},
+                                "matchScore": {"type": "number"},
+                                "reasoning": {"type": "string"},
+                                "keyStrengths": {"type": "array", "items": {"type": "string"}},
+                                "potentialConcerns": {"type": "array", "items": {"type": "string"}}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "AI Resume Analysis",
+      "description": "Resume parsing and analysis system that extracts skills, experience, education, and achievements from resume text using AI with PDF support",
+      "files": [
+        "frontend/src/lib/ai-service.ts",
+        "frontend/src/lib/pdf-processor.ts",
+        "frontend/src/app/api/ai/resume-analysis/route.ts",
+        "frontend/src/components/ai/EnhancedResumeAnalyzer.tsx",
+        "frontend/src/app/dashboard/page.tsx"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "AI Resume Analysis API",
+          "version": "1.0.0",
+          "description": "AI-powered resume analysis system"
+        },
+        "paths": {
+          "/api/ai/resume-analysis": {
+            "post": {
+              "summary": "Analyze resume text",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "resumeText": {
+                          "type": "string",
+                          "description": "Resume text content"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful analysis",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {"type": "boolean"},
+                          "analysis": {
+                            "type": "object",
+                            "properties": {
+                              "skills": {"type": "array", "items": {"type": "string"}},
+                              "workExperience": {
+                                "type": "object",
+                                "properties": {
+                                  "years": {"type": "number"},
+                                  "roles": {"type": "array", "items": {"type": "string"}},
+                                  "companies": {"type": "array", "items": {"type": "string"}}
+                                }
+                              },
+                              "education": {"type": "array", "items": {"type": "string"}},
+                              "certifications": {"type": "array", "items": {"type": "string"}},
+                              "keyAchievements": {"type": "array", "items": {"type": "string"}},
+                              "suggestedJobRoles": {"type": "array", "items": {"type": "string"}}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "AI Job Description Enhancement",
+      "description": "AI-powered job description improvement system that enhances job postings with better clarity and inclusivity",
+      "files": [
+        "frontend/src/lib/ai-service.ts",
+        "frontend/src/app/api/ai/enhance-description/route.ts",
+        "frontend/src/app/post-job/page.tsx"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "AI Job Description Enhancement API",
+          "version": "1.0.0",
+          "description": "AI-powered job description enhancement"
+        },
+        "paths": {
+          "/api/ai/enhance-description": {
+            "post": {
+              "summary": "Enhance job description",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "description": {"type": "string"},
+                        "jobTitle": {"type": "string"},
+                        "companyName": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Enhanced description",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {"type": "boolean"},
+                          "enhancedDescription": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "User Authentication System",
+      "description": "Complete authentication system with JWT tokens, user registration, login, and profile management",
+      "files": [
+        "frontend/src/app/login/page.tsx",
+        "frontend/src/app/register/page.tsx",
+        "frontend/src/app/dashboard/page.tsx",
+        "frontend/src/components/ui/Navigation.tsx",
+        "backend/src/routes/auth.ts",
+        "backend/src/routes/users.ts",
+        "backend/src/middleware/auth.ts"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "Authentication API",
+          "version": "1.0.0",
+          "description": "User authentication and management"
+        },
+        "paths": {
+          "/api/auth/register": {
+            "post": {
+              "summary": "Register new user",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "email": {"type": "string"},
+                        "password": {"type": "string"},
+                        "firstName": {"type": "string"},
+                        "lastName": {"type": "string"},
+                        "role": {"type": "string", "enum": ["JOB_SEEKER", "EMPLOYER", "ADMIN"]}
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "201": {
+                  "description": "User created successfully"
+                }
+              }
+            }
+          },
+          "/api/auth/login": {
+            "post": {
+              "summary": "User login",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "email": {"type": "string"},
+                        "password": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Login successful",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "token": {"type": "string"},
+                          "user": {"type": "object"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Job Management System",
+      "description": "Complete job posting, listing, and management system for both job seekers and employers",
+      "files": [
+        "frontend/src/app/jobs/page.tsx",
+        "frontend/src/app/jobs/[id]/page.tsx",
+        "frontend/src/app/post-job/page.tsx",
+        "backend/src/routes/jobs.ts",
+        "backend/src/routes/applications.ts",
+        "backend/prisma/schema.prisma"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "Job Management API",
+          "version": "1.0.0",
+          "description": "Job posting and management system"
+        },
+        "paths": {
+          "/api/jobs": {
+            "get": {
+              "summary": "Get all jobs",
+              "responses": {
+                "200": {
+                  "description": "List of jobs",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {"type": "string"},
+                            "title": {"type": "string"},
+                            "company": {"type": "object"},
+                            "location": {"type": "string"},
+                            "type": {"type": "string"},
+                            "salary": {"type": "object"}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "post": {
+              "summary": "Create new job",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "title": {"type": "string"},
+                        "description": {"type": "string"},
+                        "company": {"type": "string"},
+                        "location": {"type": "string"},
+                        "type": {"type": "string"},
+                        "salary": {"type": "object"}
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "201": {
+                  "description": "Job created successfully"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "User Dashboard",
+      "description": "Comprehensive user dashboard with profile management, applications tracking, saved jobs, and posted jobs for employers",
+      "files": [
+        "frontend/src/app/dashboard/page.tsx",
+        "backend/src/routes/applications.ts",
+        "backend/src/routes/notifications.ts"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "Dashboard API",
+          "version": "1.0.0",
+          "description": "User dashboard and profile management"
+        },
+        "paths": {
+          "/api/dashboard": {
+            "get": {
+              "summary": "Get user dashboard data",
+              "responses": {
+                "200": {
+                  "description": "Dashboard data",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "profile": {"type": "object"},
+                          "applications": {"type": "array"},
+                          "savedJobs": {"type": "array"},
+                          "postedJobs": {"type": "array"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Rate Limiting and Performance",
+      "description": "Client-side rate limiting, Redis caching, and performance monitoring for AI features",
+      "files": [
+        "frontend/src/lib/rate-limiter.ts",
+        "frontend/src/lib/performance-monitor.ts",
+        "frontend/src/components/ai/AIErrorBoundary.tsx"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "Performance API",
+          "version": "1.0.0",
+          "description": "Rate limiting and performance monitoring"
+        },
+        "paths": {
+          "/api/performance/metrics": {
+            "post": {
+              "summary": "Submit performance metrics",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "operation": {"type": "string"},
+                        "duration": {"type": "number"},
+                        "success": {"type": "boolean"},
+                        "userId": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Metrics recorded"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Testing Infrastructure",
+      "description": "Comprehensive testing setup with Jest, React Testing Library, and unit tests for all AI features",
+      "files": [
+        "frontend/jest.config.js",
+        "frontend/jest.setup.js",
+        "frontend/src/lib/__tests__/ai-service.test.ts",
+        "frontend/src/lib/__tests__/rate-limiter.test.ts",
+        "frontend/src/lib/__tests__/pdf-processor.test.ts",
+        "frontend/src/components/ai/__tests__/JobRecommendations.test.tsx",
+        "frontend/src/app/api/ai/__tests__/recommendations.test.ts"
+      ],
+      "api_doc": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "Testing API",
+          "version": "1.0.0",
+          "description": "Testing infrastructure and test utilities"
+        },
+        "paths": {
+          "/api/test/health": {
+            "get": {
+              "summary": "Health check endpoint",
+              "responses": {
+                "200": {
+                  "description": "Service healthy",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "status": {"type": "string"},
+                          "timestamp": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+} 

@@ -1,192 +1,247 @@
-# 🚀 Enhanced PivotCamarillaStrategy for Freqtrade
+# 🚀 HappyCareer - Modern Job Platform
 
-A conservative, risk-managed trading strategy using Mark Fisher Pivot Range, Camarilla pivots, and EMA200 with weekly profit targets.
+A comprehensive job platform built with Next.js, TypeScript, and Node.js that connects job seekers with employers through an intuitive and modern interface.
 
-## 📊 Strategy Performance
+## ✨ Features
 
-- **Total Return**: 5.21% in 20 days
-- **Win Rate**: 60.4%
-- **Max Drawdown**: 1.38%
-- **Sharpe Ratio**: 25.27
-- **Optimal Timeframe**: 30m
+### For Job Seekers
+- **Job Search & Discovery**: Advanced search with filters for location, job type, experience level
+- **Job Details**: Comprehensive job information with company details, requirements, and benefits
+- **Application Management**: Track application status and manage submissions
+- **Profile Management**: Complete profile with skills, experience, and portfolio links
+- **Saved Jobs**: Bookmark interesting positions for later review
+- **Real-time Notifications**: Stay updated on application status changes
 
-## 🎯 Key Features
+### For Employers
+- **Job Posting**: Create detailed job listings with requirements, responsibilities, and benefits
+- **Application Review**: Manage and review incoming applications
+- **Company Profile**: Showcase company information and culture
+- **Analytics Dashboard**: Track job performance and application metrics
+- **Candidate Management**: Organize and communicate with applicants
 
-- **Conservative Risk Management**: 15% stoploss, 2x leverage
-- **Weekly Profit Targets**: 3% initial ROI with trailing stops
-- **Pivot-Based Entries**: Daily pivot levels for precise entries
-- **Volatility Filters**: ATR-based market condition filtering
-- **Volume Filters**: Ensures sufficient market liquidity
+### Platform Features
+- **Modern UI/UX**: Beautiful, responsive design with smooth animations
+- **Authentication**: Secure user registration and login with JWT
+- **Role-based Access**: Different interfaces for job seekers and employers
+- **Real-time Updates**: Live notifications and status updates
+- **Mobile Responsive**: Optimized for all device sizes
 
-## 🏗️ Architecture
+## 🏗️ Tech Stack
 
-- **Timeframe**: 30m (optimal performance)
-- **Stake Amount**: 500 USDT per trade
-- **Max Open Trades**: 2
-- **Trading Mode**: Isolated Futures
-- **Exchange**: Binance
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Lucide React** - Beautiful icons
+- **React Hooks** - State management
 
-## 🚀 Quick Deployment
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web framework
+- **Prisma** - Database ORM
+- **PostgreSQL** - Primary database
+- **JWT** - Authentication
+- **bcryptjs** - Password hashing
 
-### Option 1: VPS Deployment (Recommended)
+### Database Schema
+- **Users** - Job seekers and employers
+- **Companies** - Company information and profiles
+- **Jobs** - Job postings with detailed information
+- **Applications** - Job applications and status tracking
+- **Saved Jobs** - User bookmarks
+- **Notifications** - System notifications
+- **Messages** - Communication between users
 
-1. **Choose a VPS Provider**:
-   - DigitalOcean ($6-12/month)
-   - Linode ($5-10/month)
-   - Vultr ($6-12/month)
+## 🚀 Getting Started
 
-2. **Deploy on VPS**:
+### Prerequisites
+- Node.js 18+ 
+- PostgreSQL database
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
    ```bash
-   # Clone your repository
-   git clone https://github.com/YOUR_USERNAME/freqtrade-strategies.git
-   cd freqtrade-strategies
+   git clone <repository-url>
+   cd ft_userdata
+   ```
+
+2. **Install dependencies**
+   ```bash
+   # Install frontend dependencies
+   cd frontend
+   npm install
+
+   # Install backend dependencies
+   cd ../backend
+   npm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   # Backend (.env)
+   cd backend
+   cp env.example .env
+   ```
    
-   # Run deployment script
-   ./deploy.sh
+   Edit `.env` with your configuration:
+   ```env
+   DATABASE_URL="postgresql://username:password@localhost:5432/happycareer"
+   JWT_SECRET="your-secret-key"
+   PORT=4000
+   FRONTEND_URL="http://localhost:3000"
    ```
 
-3. **Configure API Keys**:
+4. **Set up the database**
    ```bash
-   # Edit config file
-   nano user_data/config.json
-   
-   # Add your Binance API keys
-   "exchange": {
-     "name": "binance",
-     "key": "YOUR_API_KEY",
-     "secret": "YOUR_SECRET_KEY"
-   }
+   cd backend
+   npx prisma generate
+   npx prisma db push
+   npx prisma db seed
    ```
 
-4. **Start Trading**:
+5. **Start the development servers**
    ```bash
-   # Start the strategy
-   docker-compose up -d
-   
-   # Monitor logs
-   docker-compose logs -f
+   # Start backend (from backend directory)
+   npm run dev
+
+   # Start frontend (from frontend directory)
+   npm run dev
    ```
 
-### Option 2: Local Development
+6. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:4000
+   - API Health Check: http://localhost:4000/health
 
+## 📁 Project Structure
+
+```
+ft_userdata/
+├── frontend/                 # Next.js frontend application
+│   ├── src/
+│   │   ├── app/             # App Router pages
+│   │   │   ├── jobs/        # Job listing and detail pages
+│   │   │   ├── dashboard/   # User dashboard
+│   │   │   ├── login/       # Authentication pages
+│   │   │   ├── register/
+│   │   │   └── post-job/    # Job posting for employers
+│   │   ├── components/      # Reusable components
+│   │   │   ├── ui/          # UI components
+│   │   │   ├── home/        # Home page components
+│   │   │   └── blog/        # Blog components
+│   │   └── types/           # TypeScript type definitions
+│   └── package.json
+├── backend/                  # Node.js backend API
+│   ├── src/
+│   │   ├── routes/          # API route handlers
+│   │   ├── middleware/      # Express middleware
+│   │   ├── scripts/         # Database scripts
+│   │   └── types/           # TypeScript types
+│   ├── prisma/              # Database schema and migrations
+│   └── package.json
+└── README.md
+```
+
+## 🔧 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+
+### Users
+- `GET /api/users/profile` - Get user profile
+- `PUT /api/users/profile` - Update user profile
+- `GET /api/users/saved-jobs` - Get saved jobs
+
+### Jobs
+- `GET /api/jobs` - Get all jobs with filters
+- `GET /api/jobs/:id` - Get specific job
+- `POST /api/jobs` - Create new job (employers only)
+- `GET /api/jobs/my-jobs` - Get employer's posted jobs
+
+### Applications
+- `GET /api/applications` - Get user's applications
+- `POST /api/applications` - Submit job application
+- `PUT /api/applications/:id` - Update application status
+
+### Companies
+- `GET /api/companies` - Get companies
+- `GET /api/companies/:id` - Get specific company
+- `POST /api/companies` - Create company profile
+
+## 🎨 UI Components
+
+The application uses a modern design system with:
+- **Color Scheme**: Blue and purple gradients with clean whites
+- **Typography**: Clear hierarchy with readable fonts
+- **Components**: Reusable UI components with consistent styling
+- **Animations**: Smooth transitions and hover effects
+- **Responsive**: Mobile-first design approach
+
+## 🔒 Security Features
+
+- **JWT Authentication**: Secure token-based authentication
+- **Password Hashing**: bcrypt for password security
+- **Input Validation**: Comprehensive form validation
+- **Rate Limiting**: API rate limiting to prevent abuse
+- **CORS Configuration**: Proper cross-origin resource sharing
+- **Helmet.js**: Security headers middleware
+
+## 🚀 Deployment
+
+### Frontend Deployment (Vercel)
 ```bash
-# Clone repository
-git clone https://github.com/YOUR_USERNAME/freqtrade-strategies.git
-cd freqtrade-strategies
-
-# Start with Docker
-docker-compose up -d
-
-# Access web interface
-open http://localhost:8080
+cd frontend
+npm run build
+# Deploy to Vercel or your preferred platform
 ```
 
-## 📈 Strategy Configuration
-
-### ROI Structure (Weekly Targets)
-```json
-"roi": {
-  "0": 0.03,    // 3% initial target
-  "168": 0.02,  // 2% after 7 days
-  "336": 0.01,  // 1% after 14 days
-  "504": 0      // 0% after 21 days
-}
-```
-
-### Trailing Stop
-- **Activation**: +1% profit
-- **Offset**: 2%
-- **Purpose**: Maximum profit capture
-
-### Risk Parameters
-- **Stoploss**: -15%
-- **Leverage**: 2x
-- **Stake Amount**: 500 USDT
-- **Max Open Trades**: 2
-
-## 🔧 Monitoring & Management
-
-### Web Interface
-- **URL**: `http://your-server-ip:8080`
-- **Username**: `freqtrader`
-- **Password**: `carter`
-
-### API Endpoints
-- **Status**: `GET /api/v1/status`
-- **Trades**: `GET /api/v1/trades`
-- **Profit**: `GET /api/v1/profit`
-
-### Logs
+### Backend Deployment
 ```bash
-# View real-time logs
-docker-compose logs -f
-
-# View specific strategy logs
-docker-compose logs -f freqtrade
+cd backend
+npm run build
+# Deploy to your preferred hosting service
 ```
 
-## 📊 Backtesting
+### Database
+- Use a managed PostgreSQL service (e.g., Supabase, Railway, or AWS RDS)
+- Set up proper environment variables for production
 
-```bash
-# Run backtest
-docker run --rm -v $(pwd)/user_data:/freqtrade/user_data \
-  freqtradeorg/freqtrade:develop_plot backtesting \
-  --strategy PivotCamarillaStrategy \
-  --timerange 20250701-20250731 \
-  --pairs BTC/USDT:USDT ETH/USDT:USDT
+## 🤝 Contributing
 
-# Generate plots
-docker run --rm -v $(pwd)/user_data:/freqtrade/user_data \
-  freqtradeorg/freqtrade:develop_plot plot-dataframe \
-  --strategy PivotCamarillaStrategy \
-  --timerange 20250701-20250731 \
-  --pairs BTC/USDT:USDT
-```
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 🔒 Security Considerations
+## 📝 License
 
-1. **API Keys**: Use environment variables for production
-2. **Firewall**: Restrict access to port 8080
-3. **SSL**: Use reverse proxy with SSL for web interface
-4. **Backups**: Regular backups of `user_data/` directory
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📝 Environment Variables
+## 🆘 Support
 
-For production, set these environment variables:
+If you encounter any issues or have questions:
+1. Check the documentation
+2. Search existing issues
+3. Create a new issue with detailed information
 
-```bash
-export BINANCE_API_KEY="your_api_key"
-export BINANCE_SECRET_KEY="your_secret_key"
-export FREQTRADE_PASSWORD="your_secure_password"
-```
+## 🎯 Roadmap
 
-## 🆘 Troubleshooting
+- [ ] Real-time messaging between employers and candidates
+- [ ] Advanced analytics and reporting
+- [ ] Resume parsing and matching
+- [ ] Video interview integration
+- [ ] Mobile app development
+- [ ] AI-powered job recommendations
+- [ ] Multi-language support
+- [ ] Advanced search filters
+- [ ] Email notifications
+- [ ] Social media integration
 
-### Common Issues
+---
 
-1. **Strategy not starting**:
-   ```bash
-   docker-compose logs freqtrade
-   ```
-
-2. **API connection issues**:
-   - Check API keys in config
-   - Verify IP whitelist on Binance
-
-3. **Low performance**:
-   - Check VPS resources
-   - Monitor system load
-
-### Support
-
-- Check logs: `docker-compose logs -f`
-- Restart strategy: `docker-compose restart`
-- Update strategy: `git pull && docker-compose up -d`
-
-## 📄 License
-
-This project is for educational purposes. Use at your own risk.
-
-## ⚠️ Disclaimer
-
-Trading cryptocurrencies involves substantial risk. This strategy is provided as-is without any guarantees. Always test thoroughly before using real funds. 
+Built with ❤️ for the modern job market 
