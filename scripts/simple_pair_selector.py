@@ -91,12 +91,46 @@ class SimplePairSelector:
 
     def select_by_pivot_strategy(self, max_pairs=10):
         """Select pairs based on the Pivot Camarilla Strategy"""
-        # This is a placeholder implementation.
-        # In a real scenario, you would need to fetch historical data for each pair,
-        # run the strategy, and rank pairs based on the buy signals.
-        print("Pivor strategy selected")
+        print("Selecting pairs based on Pivot Camarilla Strategy...")
         all_pairs = self.get_all_pairs()
-        return random.sample(all_pairs, min(max_pairs, len(all_pairs)))
+        strategy = PivotCamarillaStrategy(config={})
+
+        results = []
+        for pair in all_pairs:
+            # Simulate fetching historical data
+            data = self.generate_dummy_data()
+
+            # Run the strategy
+            dataframe = strategy.populate_indicators(data, {'pair': pair})
+            dataframe = strategy.populate_buy_trend(dataframe, {'pair': pair})
+
+            # Count buy signals in the last 24 hours (288 5-minute candles)
+            buy_signals = dataframe['buy'].tail(288).sum()
+            results.append({'pair': pair, 'buy_signals': buy_signals})
+
+        # Sort pairs by the number of buy signals
+        sorted_pairs = sorted(results, key=lambda x: x['buy_signals'], reverse=True)
+
+        # Get the top N pairs
+        top_pairs = [p['pair'] for p in sorted_pairs[:max_pairs]]
+
+        return top_pairs
+
+    def generate_dummy_data(self):
+        """Generates dummy historical data for a pair"""
+        import pandas as pd
+        import numpy as np
+
+        dates = pd.to_datetime(pd.date_range(end=datetime.now(), periods=1000, freq='5min'))
+        data = {
+            'date': dates,
+            'open': np.random.uniform(100, 200, 1000),
+            'high': np.random.uniform(200, 300, 1000),
+            'low': np.random.uniform(0, 100, 1000),
+            'close': np.random.uniform(100, 200, 1000),
+            'volume': np.random.uniform(1000, 2000, 1000)
+        }
+        return pd.DataFrame(data)
 
     def print_selection(self, selected_pairs, method_name):
         """Print the selected pairs"""

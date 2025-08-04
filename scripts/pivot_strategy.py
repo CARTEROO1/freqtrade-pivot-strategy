@@ -25,7 +25,7 @@ class PivotCamarillaStrategy(IStrategy):
     }
 
     # Stoploss:
-    stoploss = -0.10
+    use_custom_stoploss = True
 
     # Trailing stop:
     trailing_stop = True
@@ -50,6 +50,15 @@ class PivotCamarillaStrategy(IStrategy):
         dataframe['c_r2'], dataframe['c_s2'] = self.camarilla(dataframe, 2)
         dataframe['c_r3'], dataframe['c_s3'] = self.camarilla(dataframe, 3)
 
+        # RSI
+        dataframe['rsi'] = ta.RSI(dataframe, timeperiod=14)
+
+        # EMA
+        dataframe['ema50'] = ta.EMA(dataframe, timeperiod=50)
+
+        # ATR
+        dataframe['atr'] = ta.ATR(dataframe, timeperiod=14)
+
         return dataframe
 
     def populate_buy_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
@@ -59,6 +68,8 @@ class PivotCamarillaStrategy(IStrategy):
         dataframe.loc[
             (
                 (dataframe['close'] > dataframe['c_r1']) &
+                (dataframe['rsi'] > 50) &
+                (dataframe['close'] > dataframe['ema50']) &
                 (dataframe['volume'] > 0)
             ),
             'buy'] = 1
@@ -72,10 +83,28 @@ class PivotCamarillaStrategy(IStrategy):
         dataframe.loc[
             (
                 (dataframe['close'] < dataframe['c_s1']) &
+                (dataframe['rsi'] < 50) &
+                (dataframe['close'] < dataframe['ema50']) &
                 (dataframe['volume'] > 0)
             ),
             'sell'] = 1
         return dataframe
+
+    def custom_stoploss(self, pair: str, trade: 'Trade', current_time: datetime,
+                        current_rate: float, current_profit: float, **kwargs) -> float:
+        """
+        Custom stoploss logic, returning the new distance relative to current_rate.
+        """
+        dataframe, _ = self.dp.get_analyzed_dataframe(pair, self.timeframe)
+        last_candle = dataframe.iloc[-1].squeeze()
+        atr_multiplier = 2.0
+        stoploss_price = last_candle['open'] - (last_candle['atr'] * atr_multiplier)
+
+        # Convert stoploss price to a relative value
+        if (current_rate > stoploss_price):
+            return (current_rate - stoploss_price) / current_rate
+
+        return 1 # return a value > 1 to disable stoploss
 
     def pivot_points(self, dataframe: DataFrame):
         """
